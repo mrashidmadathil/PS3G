@@ -1,24 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Farook\\Desktop\\PS3G\\ps3g.csproj": {}
+    "C:\\Users\\rashi\\OneDrive\\Desktop\\ps3g\\ps3g.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Farook\\Desktop\\PS3G\\ps3g.csproj": {
+    "C:\\Users\\rashi\\OneDrive\\Desktop\\ps3g\\ps3g.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Farook\\Desktop\\PS3G\\ps3g.csproj",
+        "projectUniqueName": "C:\\Users\\rashi\\OneDrive\\Desktop\\ps3g\\ps3g.csproj",
         "projectName": "ps3g",
-        "projectPath": "C:\\Users\\Farook\\Desktop\\PS3G\\ps3g.csproj",
-        "packagesPath": "C:\\Users\\Farook\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Farook\\Desktop\\PS3G\\obj\\",
+        "projectPath": "C:\\Users\\rashi\\OneDrive\\Desktop\\ps3g\\ps3g.csproj",
+        "packagesPath": "C:\\Users\\rashi\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\rashi\\OneDrive\\Desktop\\ps3g\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\",
+          "D:\\Microsoft\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Farook\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\rashi\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -27,7 +27,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://www.nuget.org/api/v2/": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.0": {
@@ -61,6 +61,10 @@
               "target": "Package",
               "version": "[3.1.0, )"
             },
+            "Microsoft.jQuery.Unobtrusive.Ajax": {
+              "target": "Package",
+              "version": "[3.2.6, )"
+            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[12.0.3, )"
@@ -84,7 +88,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

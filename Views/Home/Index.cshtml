@@ -1,5 +1,57 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Profile";
 }
+<body>
+    <div class="forny-container">
+        <div class="forny-inner">
+            <div class="forny-form">
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" role="tabpanel" id="login">
+                        <form>
+
+                            <div class="form-group">
+
+                                <div class="input-group">
+
+                                    <h2>Name:</h2>
+                                    @if (ViewData["UserName"] != null)
+                                    {
+                                        <h4>
+                                            @ViewData["UserName"]
+                                        </h4>
+                                    }
+
+                                </div>
+                            </div>
 
 
+                            <div class="form-group password-field">
+
+                                <div class="input-group">
+
+                                    <h3>Password:</h3>@if (ViewData["Password"] != null)
+                                    {
+                                        <h4>
+                                            @ViewData["Password"]
+                                        </h4>
+                                    }
+
+                                </div>
+                            </div>
+                            <a href="@Url.Action("Logout","Home")" class="btn btn-dark">
+                                Logout
+                            </a>
+
+
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</body>

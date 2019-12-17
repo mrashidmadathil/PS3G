@@ -2,59 +2,45 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Data;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
 
 namespace ps3g.Models
 {
     public class DbModel
     {
+
+        static List<UserData> objUserData = new List<UserData>();
+        private readonly SessionUtility objSession;
+        public DbModel()
+        {
+            objSession = new SessionUtility();
+
+        }
         public bool ValidateLogin(UserData objuser)
         {
             try
             {
-                objdb = new DbModel();
                 bool IsValidlogin = false;
-                cmd = new SqlCommand();
-                objdb.OpenConn();
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Connection = objdb.conn;
-                cmd.CommandTimeout = 0;
-                cmd.CommandText = "USP_Login";
-                cmd.Parameters.AddWithValue("@Username", objuser.UserName);
-                cmd.Parameters.AddWithValue("@Password", objuser.Password);
-                dt = new DataTable();
-                dt = objdb.RetDt(cmd);
-                if (dt.Rows.Count > 0)
+                foreach (var item in objUserData.Where(item => objuser.UserName == item.UserName && objuser.Password == item.Password))
                 {
                     IsValidlogin = true;
-                    int Temp;
-                    if (int.TryParse(dt.Rows[0]["UserID"].ToString(), out Temp))
+                    
+                    if (item.UserName != null)
                     {
-                        objuser.UserId = Temp;
-                        sessionobj.SetSession("UserId", Temp.ToString());
+                        objuser.UserName = item.UserName;
+                        objSession.SetSession("UserName", item.UserName);
+
                     }
-                    if (int.TryParse(dt.Rows[0]["CompanyID"].ToString(), out Temp))
+                    if (item.Password != null)
                     {
-                        sessionobj.SetSession("CompanyId", Temp.ToString());
-                        objuser.CompanyId = Temp;
-                    }
-                    if (int.TryParse(dt.Rows[0]["RoleID"].ToString(), out Temp))
-                    {
-                        objuser.RoleId = Temp;
-                        sessionobj.SetSession("RoleId", Temp.ToString());
-                    }
-                    if (int.TryParse(dt.Rows[0]["DepartmentID"].ToString(), out Temp))
-                    {
-                        objuser.DepartmentId = Temp;
-                        sessionobj.SetSession("DepartmentId", Temp.ToString());
-                    }
-                    if (int.TryParse(dt.Rows[0]["RoleCode"].ToString(), out Temp))
-                    {
-                        objuser.RoleCode = Temp;
-                        sessionobj.SetSession("RoleCode", Temp.ToString());
+                        objuser.Password = item.Password;
+                        objSession.SetSession("Password", item.Password);
                     }
 
-                    //System.Web.HttpContext.Current.Session["SchoolType"] = "0";
-                    objuser.Email = dt.Rows[0]["Email"].ToString();
                 }
 
                 return IsValidlogin;
@@ -64,10 +50,41 @@ namespace ps3g.Models
             {
                 throw ex;
             }
-            finally
+
+        }
+
+        public Response Signup(UserData model)
+        {
+            Response objres = new Response();
+            try
             {
-                objdb.CloseConn();
+                bool check = false;
+                foreach (var item in objUserData.Where(item => model.UserName == item.UserName))
+                {
+                    check = true;
+                }
+                if (check == false)
+                {
+                    objUserData.Add(model);
+                    objres.message = "Successfull";
+                    objres.title = "Success";
+                    objres.type = "success";
+                }
+                else
+                {
+                    objres.message = "Username Already Exist, Use Another one!!";
+                    objres.title = "Warning";
+                    objres.type = "warning";
+                }
+
             }
+            catch (Exception ex)
+            {
+                objres.message = ex.Message;
+                objres.title = "Failed";
+                objres.type = "error";
+            }
+            return objres;
         }
     }
 
@@ -75,6 +92,15 @@ namespace ps3g.Models
     {
         public string UserName { get; set; }
         public string Password { get; set; }
+    }
+    public class Response
+    {
+        public string type { get; set; }
+        public string title { get; set; }
+        public string message { get; set; }
+        public bool status { get; set; }
+        public int DataId { get; set; }
+        public int DataId2 { get; set; }
     }
 
 

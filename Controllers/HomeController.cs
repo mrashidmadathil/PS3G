@@ -11,39 +11,57 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
+using Microsoft.Extensions.Configuration;
 
 namespace ps3g.Controllers
 {
-    
+    [Authorize]
+    [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
+
     public class HomeController : Controller
     {
-        private HttpContextAccessor _Accessor;
-        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+
+
+        private readonly SessionUtility objSession;
+
+        public HomeController()
         {
-            _logger = logger;
+            objSession = new SessionUtility();
+
         }
 
         public IActionResult Index()
         {
             //objSession.SetSession("MenuId", "");
-            _Accessor.HttpContext.Session.SetString("MenuId", "");
-            if (_Accessor.HttpContext.Session.GetString("UserId") == null)                
+            //_Accessor.HttpContext.Session.SetString("MenuId", "");
+            if (objSession.GetSession("UserName") == null && objSession.GetSession("Password") == null)
             {
-                clearcookie();
+                clearcookie();                
                 return View("Login");
-            }
-            string returnurl = Convert.ToString(Request.Query["ReturnUrl"]);
-            if (returnurl != null)
-            {
-                return Redirect(returnurl);
             }
             else
             {
-                TempData.Keep();
-                return View();
+                ViewData["UserName"] = objSession.GetSession("UserName");
+                ViewData["Password"] = objSession.GetSession("Password");
+                return View("Index");
             }
+
+        }
+
+        [AllowAnonymous]
+        public IActionResult Login()
+        {
+            return View();
+
+        }
+
+        [AllowAnonymous]
+        public IActionResult LogOut()
+        {
+            clearcookie();
+            return RedirectToAction("Index");
+
         }
 
         public IActionResult Privacy()
@@ -68,12 +86,12 @@ namespace ps3g.Controllers
                 if (result == true)
                 {
                     //Set cookie for authentication 
-                    setcookie(usermodel);                    
+                    setcookie(usermodel);
                     return RedirectToAction("Index");
                 }
                 else
                 {
-                    ViewBag.message = "Invalid Credentials.";
+                    ViewBag.message = "username/password do not match.";
                     return View("Login");
                 }
             }
@@ -97,8 +115,8 @@ namespace ps3g.Controllers
         {
             var claims = new List<Claim>
                     {
-                        new Claim(ClaimTypes.Name, usermodel.UserName),                        
-                        new Claim(ClaimTypes.SerialNumber, usermodel.Password),                        
+                        new Claim(ClaimTypes.Name, usermodel.UserName),
+                        new Claim(ClaimTypes.SerialNumber, usermodel.Password),
                     };
             var claimsIdentity = new ClaimsIdentity(
             claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -114,6 +132,14 @@ namespace ps3g.Controllers
             authProperties);
         }
 
-
+        [AllowAnonymous]
+        [HttpPost]
+        public Response Signup(UserData model)
+        {
+            DbModel objmodel = new DbModel();
+            Response objres = new Response();
+            objres = objmodel.Signup(model);
+            return objres;
+        }
     }
 }

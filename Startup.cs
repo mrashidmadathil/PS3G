@@ -40,7 +40,7 @@ namespace ps3g
             .AddCookie(options =>
             {
                 options.LoginPath = "/Home/Login";
-                options.LogoutPath = "/Home/Logout";
+                options.LogoutPath = "/Home/LogOut";
                 options.ExpireTimeSpan = TimeSpan.FromDays(1);
                 //options.ReturnUrlParameter = "";
             });
@@ -51,7 +51,7 @@ namespace ps3g
             {
                 options.ValueCountLimit = int.MaxValue;
             });
-
+            services.AddHttpContextAccessor();
 
         }
 

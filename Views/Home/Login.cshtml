@@ -1,10 +1,23 @@
-﻿
+﻿@model UserData
 @{
     ViewData["Title"] = "Login";
+}
+@section Scripts
+{
+    <script>
+        function SuccessSignUp(res) {
+            swal(res.title, res.message, res.type);
+            $("#Signupusername").val("");
+            $("#Signpassword").val("");
+        }
+    </script>
+    
+    
 }
 
 <body>
     <div class="forny-container">
+
 
         <div class="forny-inner">
 
@@ -29,9 +42,10 @@
                         </a>
                     </li>
                 </ul>
+                
                 <div class="tab-content">
                     <div class="tab-pane fade show active" role="tabpanel" id="login">
-                        <form>
+                        <form method="post" action="@Url.Action("UserLogin","Home")">
 
                             <div class="form-group">
 
@@ -46,8 +60,8 @@
                                         </span>
                                     </div>
 
-                                    <input required class="form-control" name="email" type="email"
-                                           placeholder="Email Address">
+                                    <input required asp-for="UserName" class="form-control" id="LoginUsername" type="text"
+                                           placeholder="User Name">
 
                                 </div>
                             </div>
@@ -69,7 +83,7 @@
                                         </span>
                                     </div>
 
-                                    <input required class="form-control" name="password" type="password"
+                                    <input required asp-for="Password" class="form-control" id="Loginpassword" type="password"
                                            placeholder="Password">
 
                                     <div class="input-group-append cursor-pointer">
@@ -88,10 +102,13 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row text-center" style="padding:10px;">
+                                <span class="text-danger">@ViewBag.message</span>
+                            </div>
 
                             <div class="row">
                                 <div class="col-4">
-                                    <button class="btn btn-primary btn-block">Login</button>
+                                    <button type="submit" class="btn btn-primary btn-block">Login</button>
                                 </div>
                             </div>
 
@@ -99,7 +116,9 @@
                         </form>
                     </div>
                     <div class="tab-pane fade" role="tabpanel" id="register">
-                        <form>
+                        <form method="post" action="@Url.Action("Signup","Home")" id="formSignup"
+                              data-ajax="true" data-ajax-method="POST" data-ajax-loading="#LayoutInnerLoader" data-ajax-url="/Home/Signup"
+                              data-ajax-success="SuccessSignUp">
 
                             <div class="form-group">
 
@@ -116,32 +135,11 @@
                                         </span>
                                     </div>
 
-                                    <input required class="form-control" name="username" type="username"
+                                    <input required asp-for="UserName" oncli class="form-control" id="Signupusername" type="text"
                                            placeholder="Username">
 
                                 </div>
                             </div>
-
-
-                            <div class="form-group">
-
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="16" viewBox="0 0 24 16">
-                                                <g transform="translate(0)">
-                                                    <path d="M23.983,101.792a1.3,1.3,0,0,0-1.229-1.347h0l-21.525.032a1.169,1.169,0,0,0-.869.4,1.41,1.41,0,0,0-.359.954L.017,115.1a1.408,1.408,0,0,0,.361.953,1.169,1.169,0,0,0,.868.394h0l21.525-.032A1.3,1.3,0,0,0,24,115.062Zm-2.58,0L12,108.967,2.58,101.824Zm-5.427,8.525,5.577,4.745-19.124.029,5.611-4.774a.719.719,0,0,0,.109-.946.579.579,0,0,0-.862-.12L1.245,114.4,1.23,102.44l10.422,7.9a.57.57,0,0,0,.7,0l10.4-7.934.016,11.986-6.04-5.139a.579.579,0,0,0-.862.12A.719.719,0,0,0,15.977,110.321Z" transform="translate(0 -100.445)" />
-                                                </g>
-                                            </svg>
-                                        </span>
-                                    </div>
-
-                                    <input required class="form-control" name="email" type="email"
-                                           placeholder="Email Address">
-
-                                </div>
-                            </div>
-
 
                             <div class="form-group password-field">
 
@@ -159,7 +157,7 @@
                                         </span>
                                     </div>
 
-                                    <input required class="form-control" name="password" type="password"
+                                    <input required asp-for="Password" class="form-control" id="Signpassword" type="text"
                                            placeholder="Password">
 
                                     <div class="input-group-append cursor-pointer">
@@ -182,7 +180,7 @@
 
                             <div class="row">
                                 <div class="col-12">
-                                    <button class="btn btn-primary btn-block">Register</button>
+                                    <button type="submit" class="btn btn-primary btn-block">Register</button>
                                 </div>
                             </div>
                         </form>
